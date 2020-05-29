@@ -213,40 +213,41 @@
 </div>
 <!--<script src='js/chat_gui.js'></script>-->
 <script src='js/jquery-3.5.1.min.js'></script>
-<script>$(".messages").animate({scrollTop: $(document).height()}, "fast");
+<script>
+	// $(".messages").animate({scrollTop: $(document).height()}, "fast");
 
-$("#profile-img").click(function () {
-	$("#status-options").toggleClass("active");
-});
-
-$(".expand-button").click(function () {
-	$("#profile").toggleClass("expanded");
-	$("#contacts").toggleClass("expanded");
-});
-
-$("#status-options ul li").click(function () {
-	$("#profile-img").removeClass();
-	$("#status-online").removeClass("active");
-	$("#status-away").removeClass("active");
-	$("#status-busy").removeClass("active");
-	$("#status-offline").removeClass("active");
-	$(this).addClass("active");
-
-	if ($("#status-online").hasClass("active")) {
-		$("#profile-img").addClass("online");
-	} else if ($("#status-away").hasClass("active")) {
-		$("#profile-img").addClass("away");
-	} else if ($("#status-busy").hasClass("active")) {
-		$("#profile-img").addClass("busy");
-	} else if ($("#status-offline").hasClass("active")) {
-		$("#profile-img").addClass("offline");
-	} else {
-		$("#profile-img").removeClass();
-	}
-	;
-
-	$("#status-options").removeClass("active");
-});
+// $("#profile-img").click(function () {
+// 	$("#status-options").toggleClass("active");
+// });
+//
+// $(".expand-button").click(function () {
+// 	$("#profile").toggleClass("expanded");
+// 	$("#contacts").toggleClass("expanded");
+// });
+//
+// $("#status-options ul li").click(function () {
+// 	$("#profile-img").removeClass();
+// 	$("#status-online").removeClass("active");
+// 	$("#status-away").removeClass("active");
+// 	$("#status-busy").removeClass("active");
+// 	$("#status-offline").removeClass("active");
+// 	$(this).addClass("active");
+//
+// 	if ($("#status-online").hasClass("active")) {
+// 		$("#profile-img").addClass("online");
+// 	} else if ($("#status-away").hasClass("active")) {
+// 		$("#profile-img").addClass("away");
+// 	} else if ($("#status-busy").hasClass("active")) {
+// 		$("#profile-img").addClass("busy");
+// 	} else if ($("#status-offline").hasClass("active")) {
+// 		$("#profile-img").addClass("offline");
+// 	} else {
+// 		$("#profile-img").removeClass();
+// 	}
+// 	;
+//
+// 	$("#status-options").removeClass("active");
+// });
 
 function newMessage(message) {
 	message = $(".message-input input").val();
@@ -257,7 +258,7 @@ function newMessage(message) {
 	$('.message-input input').val(null);
 	$('.contact.active .preview').html('<span>You: </span>' + message);
 	$(".messages").animate({scrollTop: $(document).height()}, "fast");
-};
+}
 
 $('.submit').click(function () {
 	newMessage();
@@ -270,6 +271,9 @@ $(window).on('keydown', function (e) {
 	}
 });
 //# sourceURL=pen.js
+
+const tmp = document.getElementById("contacts");
+console.log(tmp);
 </script>
 </body>
 </html>
