@@ -1,0 +1,30 @@
+{
+  "user1": {
+    "id": 1,
+    "name": "name Utente1",
+    "surname": "Surname utente 1",
+    "img_url": "https://images.generated.photos/qfISOJvJFf2v2i9EibbCSunTiDrx-qh6lo_2ZNYikxk/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yy/XzA0NzQwNzYuanBn.jpg"
+  },
+  "user2": {
+    "id": 2,
+    "name": "name Utente2",
+    "surname": "Surname utente 2",
+    "img_url": "https://images.generated.photos/w8E8EGaHOZoaKduY6Q822FfLXQgRKIVcza-Bzj2s4z4/rs:fit:512:512/Z3M6Ly9nZW5lcmF0/ZWQtcGhvdG9zL3Yy/XzA3OTQwNDAuanBn.jpg"
+  },
+  "messages": [
+    {
+      "message_id": 1,
+      "timestamp": 1590591185,
+      "from_id": 1,
+      "to_id": 2,
+      "text": "ciao sono l'utente 1"
+    },
+    {
+      "message_id": 2,
+      "timestamp": 1590591197,
+      "from_id": 2,
+      "to_id": 1,
+      "text": "ciao sono l'utente 2"
+    }
+  ]
+}
