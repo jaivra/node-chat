@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet'
+          type='text/css'>
+
+    <link rel='stylesheet prefetch' href='css/reset.min.css'>
+    <link rel='stylesheet prefetch'
+          href='font-awesome/css/font-awesome.min.css'>
+    <link rel='stylesheet' href="css/my_style.css">
+</head>
+<body>
+
+
+<div id="frame">
+    <div style="width: 100%; margin-bottom: 30px; display: none">
+        <span>questo E' il log:</span><br>
+        <div id="log">
+        </div>
+    </div>
+    <div id="sidepanel">
+        <div id="profile">
+            <div class="wrap">
+                <img id="profile-img" src="http://emilcarlsson.se/assets/mikeross.png" class="online" alt=""/>
+                <p>Mike Ross</p>
+                <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
+                <div id="status-options">
+                    <ul>
+                        <li id="status-online" class="active"><span class="status-circle"></span>
+                            <p>Online</p></li>
+                        <li id="status-away"><span class="status-circle"></span>
+                            <p>Away</p></li>
+                        <li id="status-busy"><span class="status-circle"></span>
+                            <p>Busy</p></li>
+                        <li id="status-offline"><span class="status-circle"></span>
+                            <p>Offline</p></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <div id="search">
+            <label ><i class="fa fa-search" aria-hidden="true"></i></label>
+            <input type="text" placeholder="Search contacts..."/>
+        </div>
+        <div id="contacts"></div>
+        <div id="bottom-bar">
+            <button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span>
+            </button>
+            <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
+        </div>
+    </div>
+    <div class="content" id="active-chat">
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+    const TEST = false;
+
+    const logElement = document.getElementById("log");
+
+    function logHtml(text, append = true) {
+        if (append)
+            logElement.innerText += text;
+        else
+            logElement.innerText = text;
+
+        logElement.innerHTML += "<br>"
+    }
+
+    function resetLog() {
+        logElement.innerText = "";
+    }
+
+</script>
+<script type='text/javascript'>
+    const JSON_DATA = <%-JSON_DATA%>;
+    console.log("*****", JSON_DATA);
+</script>
+<script src="js-view/util.js"></script>
+<script src="js-view/chat-sidepanel.js"></script>
+<script src="js-view/chat-frame.js"></script>
+<script src="js-core/chat-core.js"></script>
+<script src="test/chat-core-test.js"></script>
+<script src="test/generator-data.js"></script>
+<script src="js-view/init.js"></script>
+
+<script src="test/test.js"></script>
+
+
