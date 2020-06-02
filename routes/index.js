@@ -7,6 +7,7 @@ DataGenerator = require('../public/test/generator-data');
 User = core.User;
 Message = core.Message;
 Chat = core.Chat;
+const db = require(__dirname + "/../db")
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -18,6 +19,15 @@ router.get('/', function(req, res, next) {
   // res.sendFile(path.join(__dirname + '/tmp.html'));
 
 });
+
+router.post('/', function(req, res, next) {
+  res.send(    `PUT HTTP method on user/${req.params.userId} resource`,
+  )
+  // console.log("****",DataGenerator);
+  // res.sendFile(path.join(__dirname + '/tmp.html'));
+
+});
+
 
 
 function test(){
@@ -35,4 +45,6 @@ function test(){
 }
 
 
+// console.log(__dirname);
 module.exports = router;
+

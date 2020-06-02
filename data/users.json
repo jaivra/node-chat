@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "username": "Vale1",
+    "imgUrl": "https://cdn3.iconfinder.com/data/icons/one-piece-colored/48/Cartoons__Anime_One_Piece_Artboard_10-512.png",
+    "password": "prova"
+  },
+  {
+    "id": 2,
+    "username": "Vale2",
+    "imgUrl": "https://cdn3.iconfinder.com/data/icons/one-piece-colored/48/Cartoons__Anime_One_Piece_Artboard_11-512.png",
+    "password": "prova"
+  }
+]
