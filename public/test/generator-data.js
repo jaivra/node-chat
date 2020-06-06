@@ -17,9 +17,8 @@ class UserGenerator extends Generator {
 
     generate() {
         super.generate();
-        const id = "id-" + this.count;
         const username = "username-" + this.count;
-        return new User(id, username, this.imgURL);
+        return new User(username, this.imgURL);
     }
 }
 

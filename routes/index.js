@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const db = require(__dirname + "/../db")
 
 core = require('../public/js-core/chat-core')
 DataGenerator = require('../public/test/generator-data');
@@ -7,7 +8,6 @@ DataGenerator = require('../public/test/generator-data');
 User = core.User;
 Message = core.Message;
 Chat = core.Chat;
-const db = require(__dirname + "/../db")
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

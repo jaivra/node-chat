@@ -1,13 +1,8 @@
 class User {
-    constructor(id, username, imgURL, password) {
-        this._id = id;
+    constructor(username, imgURL, password) {
         this._username = username;
         this._imgURL = imgURL;
         this._password = password
-    }
-
-    get id() {
-        return this._id;
     }
 
     get username() {
@@ -22,39 +17,30 @@ class User {
         return this._imgURL;
     }
 
-    toJson() {
-        return JSON.stringify(this);
-    }
-
     get password() {
         return this._password;
     }
 
     static fromJSON(JSONUser) {
-        return new User(JSONUser._id, JSONUser._username, JSONUser._imgURL);
+        return new User(JSONUser._username, JSONUser._imgURL);
     }
 }
 
 
 class Message {
-    constructor(id, from, to, text, timestamp) {
-        this._id = id;
-        this._from = from;
-        this._to = to;
+    constructor(from_username, to_username, text, timestamp) {
+        this._from_username = from_username;
+        this._to_username = to_username;
         this._text = text;
         this._timestamp = timestamp
     }
 
-    get id() {
-        return this._id;
-    }
-
     get from() {
-        return this._from;
+        return this._from_username;
     }
 
     get to() {
-        return this._to;
+        return this._to_username;
     }
 
     get text() {
@@ -66,24 +52,23 @@ class Message {
     }
 
     isSentMessage() {
-        return this._from.id === CURRENT_USER.id
+        return this._from_username === CURRENT_USER.username
     }
 
     toJson() {
         return JSON.stringify(this);
     }
-
-    static fromJSON(JSONMessage) {
-        const from = User.fromJSON(JSONMessage._from);
-        const to = User.fromJSON(JSONMessage._to)
-        return new Message(JSONMessage._id, from, to, JSONMessage._text, JSONMessage._timestamp);
-    }
+    //
+    // static fromJSON(JSONMessage) {
+    //     const from = User.fromJSON(JSONMessage._from);
+    //     const to = User.fromJSON(JSONMessage._to)
+    //     return new Message(JSONMessage._id, from, to, JSONMessage._text, JSONMessage._timestamp);
+    // }
 }
 
 
 class Chat {
-    constructor(id, to, messages) {
-        this._id = id;
+    constructor(to, messages) {
         this._to = to;
         this._messages = messages;
         this._messages.sortMessage = function () {
@@ -98,10 +83,6 @@ class Chat {
     addMessage(message) {
         this._messages.push(message);
         this._messages.sortMessage();
-    }
-
-    get id() {
-        return this._id;
     }
 
     get to() {
@@ -119,16 +100,16 @@ class Chat {
     toJson() {
         return JSON.stringify(this);
     }
-
-    static fromJSON(JSONChat) {
-        const messages = []
-        JSONChat._messages.forEach(JSONMessage => {
-            messages.push(Message.fromJSON(JSONMessage));
-        })
-
-        const to = User.fromJSON(JSONChat._to);
-        return new Chat(JSONChat._id, to, messages);
-    }
+    //
+    // static fromJSON(JSONChat) {
+    //     const messages = [];
+    //     JSONChat._messages.forEach(JSONMessage => {
+    //         messages.push(Message.fromJSON(JSONMessage));
+    //     });
+    //
+    //     const to = User.fromJSON(JSONChat._to);
+    //     return new Chat(to, messages);
+    // }
 }
 
 
