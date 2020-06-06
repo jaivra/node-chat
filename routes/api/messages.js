@@ -37,42 +37,52 @@ router.post('/', function (req, res, next) {
 router.get('/', function (req, res, next) {
     const username = req.param("username");
     const timestamp = req.param("timestamp", 0);
-    const userFrom = new User(username);
-    db.getMessages(userFrom, timestamp)
-        .then(messages_data => {
-            console.log("****", messages_data);
-            const users_to_data = new Set();
+    const currentUser = new User(username);
+    db.getMessages(currentUser, timestamp)
+        .then(messagesData => {
 
             const messages = [];
-            messages_data.forEach(messages_data => {
-                let message = new Message(messages_data.user_from, messages_data.user_to, messages_data.text, messages_data.timestamp);
+            messagesData.forEach(messageData => {
+                let message = new Message(messageData.user_from, messageData.user_to, messageData.text, messageData.timestamp);
                 messages.push(message);
             });
 
-            messages.forEach(message => {
-                users_to_data.add(message.from);
-                users_to_data.add(message.to);
-            });
-            users_to_data.delete(userFrom.username);
+            const usersToData = [];
+            const usersFlag = new Set();
+            messagesData.forEach(messageData => {
+                let item = null;
+                if (messageData.user_from !== currentUser.username)
+                    item = [messageData.user_from, messageData.img_url];
+                else if (messageData.user_to !== currentUser.username)
+                    item = [messageData.user_to, messageData.img_url];
 
+                if (item !== null && !usersFlag.has(item[0])){
+                    usersFlag.add(item[0]);
+                    usersToData.push(item);
+                }
+            });
 
             const chats = [];
-            users_to_data.forEach(user_to_data => {
-                const user_to = new User(user_to_data);
-                const chat = new Chat(user_to, []);
+            usersToData.forEach(user_to_data => {
+                const userTo = new User(user_to_data[0], user_to_data[1]);
+
+                const chat = new Chat(userTo, []);
                 messages.forEach(message => {
-                    if (message.from === user_to || message.to === user_to)
-                        chat.addMessage(message)
+                    if (message.fromUsername === user_to_data[0] || message.toUsername === user_to_data[0])
+                        chat.addMessage(message);
+
                 });
                 chats.push(chat);
             });
 
             res.status(200);
-            console.log("+++++++", chats[0].messages);
             return chats;
         })
-        .then(chats=>{
-            res.send(JSON.stringify(chats))
+        .then(chats => {
+            const chatsJson = [];
+            chats.forEach(chat => chatsJson.push(chat.toJson()));
+            console.log(chats);
+            res.send(chatsJson)
         })
         .catch(_ => {
             console.log("ERROR:", _);

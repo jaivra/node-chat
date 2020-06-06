@@ -11,16 +11,17 @@ Message = core.Message;
 Chat = core.Chat;
 
 router.post('/login/', function (req, res, next) {
-    const username = req.param("username");
-    const password = req.param("password");
+    const username = req.param("username", "");
+    const password = req.param("password", "");
     const userToLogin = new User(username, null, password);
-    console.log(username, password);
+    // console.log("***", username);
+    console.log("***", username, password);
     db.getUser(userToLogin)
         .then(users => {
-            console.log("response:", users.length);
             if (users.length > 0) {
+                const loggedUser = new User(users[0].username, users[0].img)
                 res.status(200);
-                res.json(JSON.stringify(users));
+                res.send(loggedUser.toJson());
             } else {
                 res.status(404);
                 res.end()
@@ -47,7 +48,7 @@ router.get('/exists/', function (req, res, next) {
 
 });
 
-router.post('/signup/', function (req, res, next) {
+router.post('/sign_up/', function (req, res, next) {
     const username = req.param("username");
     const imgURL = req.param("imgURL");
     const password = req.param("password");

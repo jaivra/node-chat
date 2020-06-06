@@ -34,22 +34,23 @@ class DB {
     }
 
     getMessages(currentUser, timestamp) {
-        let query = "SELECT cm.*, c2.img as img_url " +
+        let query =
+            "SELECT cm.user_from, cm.user_to, cm.text, trunc(EXTRACT(epoch FROM cm.timestamp)) * 1000 as timestamp, c2.img as img_URL " +
             "FROM c_user c1 " +
             "INNER JOIN c_message cm on ${current_username} = cm.user_from " +
             "INNER JOIN c_user c2 on c2.username = cm.user_to " +
             "WHERE cm.timestamp > to_timestamp(${timestamp}) " +
             "UNION " +
-            "SELECT cm.*, c2.img as img_url " +
+            "SELECT cm.user_from, cm.user_to, cm.text, trunc(EXTRACT(epoch FROM cm.timestamp)) * 1000 as timestamp, c2.img as img_URL " +
             "FROM c_user c1 " +
             "INNER JOIN c_message cm ON ${current_username} = cm.user_to " +
             "INNER JOIN c_user c2 ON c2.username = cm.user_from " +
             "WHERE cm.timestamp > to_timestamp(${timestamp})";
 
-            console.log(query);
+        console.log(query);
         const params = {
             current_username: currentUser.username,
-            timestamp: timestamp/1000
+            timestamp: timestamp / 1000
         };
         return this._db.query(query, params);
     }
@@ -59,7 +60,7 @@ class DB {
         const params = {
             from_id: from.username,
             to_id: to.username,
-            timestamp: timestamp/1000,
+            timestamp: timestamp / 1000,
             text: text
         };
         return this._db.query(query, params);
@@ -77,6 +78,7 @@ class DB {
     }
 
 }
+
 //
 const db = new DB("localhost", "5432", "node_chat", "valerio", "postgress");
 module.exports = db;

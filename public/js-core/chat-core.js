@@ -21,6 +21,13 @@ class User {
         return this._password;
     }
 
+    toJson() {
+        return {
+            "username": this._username,
+            "img_url": this._imgURL
+        };
+    }
+
     static fromJSON(JSONUser) {
         return new User(JSONUser._username, JSONUser._imgURL);
     }
@@ -35,11 +42,11 @@ class Message {
         this._timestamp = timestamp
     }
 
-    get from() {
+    get fromUsername() {
         return this._from_username;
     }
 
-    get to() {
+    get toUsername() {
         return this._to_username;
     }
 
@@ -56,8 +63,14 @@ class Message {
     }
 
     toJson() {
-        return JSON.stringify(this);
+        return {
+            "from_username": this._from_username,
+            "to_username": this._to_username,
+            "text": this._text,
+            "timestamp": this._timestamp
+        };
     }
+
     //
     // static fromJSON(JSONMessage) {
     //     const from = User.fromJSON(JSONMessage._from);
@@ -98,8 +111,20 @@ class Chat {
     }
 
     toJson() {
-        return JSON.stringify(this);
+        const messagesJson = [];
+        this._messages.forEach(message =>
+            messagesJson.push(message.toJson())
+        );
+
+        const toUserJson = this.to.toJson();
+
+        return {
+            "to_user": toUserJson,
+            "messages": messagesJson
+        };
     }
+
+
     //
     // static fromJSON(JSONChat) {
     //     const messages = [];
