@@ -41,7 +41,7 @@ class SidePanelView extends ObservableView {
 
         const liContact = document.createElement("li");
         liContact.setAttribute("class", "contact");
-        liContact.setAttribute("id", chat.id);
+        liContact.setAttribute("id", chat.to.username);
 
         const spanContact = document.createElement("span");
         spanContact.setAttribute("class", "contact-status");
@@ -72,7 +72,7 @@ class SidePanelView extends ObservableView {
         divWrap.appendChild(divMeta);
         liContact.appendChild(divWrap);
 
-
+        console.log(this._activeChatView !== null);
         if (this._activeChatView !== null) {
             if (this._activeChatView.id === liContact.id) {
                 this._activeChatView = liContact;
@@ -92,7 +92,7 @@ class SidePanelView extends ObservableView {
     }
 
     static _lastMessagePreview(lastMessage) {
-        const messagePreview = lastMessage.from.id === CURRENT_USER.id ? "<span>You:</span>" : "";
+        const messagePreview = lastMessage.from_username === CURRENT_USER.username ? "<span>You:</span>" : "";
         return messagePreview + lastMessage.text
     }
 }
@@ -102,7 +102,7 @@ class SidePanelController {
     constructor(sidePanelView, sidePanelModel) {
         this._sidePanelView = sidePanelView;
         this._sidePanelModel = sidePanelModel;
-        // this._sidePanelView.addObserver(this.onActiveChatChanged.bind(this));
+        REQUESTER.addObserver(this);
     }
 
     onActiveChatChanged(observable, chat) {
@@ -110,7 +110,8 @@ class SidePanelController {
     }
 
     onUpdateChat(chats) {
-        this._sidePanelModel.updateChats(sidePanelView, chats)
+        console.log("SIDE PANEL", chats);
+        this._sidePanelModel.updateChats(this._sidePanelView, chats)
     }
 }
 
@@ -121,17 +122,21 @@ class SidePanelModel {
 
     updateChats(sidePanelView, chats) {
         chats.forEach(chat => {
-            const containstAlready = this._hasChat(chat);
-            if (!containstAlready)
+            const exists = this._addMessages(chat);
+            if (!exists)
                 this._chats.push(chat);
         });
         this._sortChats();
         sidePanelView.updateChatsView(this._chats);
     }
 
-    _hasChat(newChat) {
+    _addMessages(newChat) {
         return this._chats.some(chat => {
-            return chat.id === newChat.id
+            if (chat.to.username === newChat.to.username) {
+                newChat.messages.forEach(message => chat.addMessage(message));
+                return true;
+            }
+            return false;
         });
     }
 
@@ -139,9 +144,5 @@ class SidePanelModel {
         this._chats.sort((chat1, chat2) => {
             return chat2.lastMessage.timestamp - chat1.lastMessage.timestamp;
         })
-    }
-
-    tmp() {
-        console.log("*****", this._chats);
     }
 }

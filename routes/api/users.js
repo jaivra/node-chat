@@ -50,7 +50,7 @@ router.get('/exists/', function (req, res, next) {
 
 router.post('/sign_up/', function (req, res, next) {
     const username = req.param("username");
-    const imgURL = req.param("imgURL");
+    const imgURL = req.param("img_url");
     const password = req.param("password");
     const newUser = new User( username, imgURL, password);
     db.insertUser(newUser)

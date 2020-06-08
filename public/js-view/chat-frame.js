@@ -4,6 +4,7 @@ class ChatFrameView extends ObservableView {
         this._chatElement = document.getElementById(chatElementId);
         this._inputElement = this._createChatInputElement();
         this._listMessagesElement = null;
+        this._to = null;
     }
 
     addViewMessage(message) {
@@ -13,6 +14,7 @@ class ChatFrameView extends ObservableView {
     }
 
     updateActiveChatView(chat) {
+        this._to = chat.to;
         this._resetActiveChatView();
         this._addActiveChatToFrame(chat);
         this._scrollViewToLastMessage();
@@ -117,13 +119,16 @@ class ChatFrameView extends ObservableView {
 
     _createMessageElement(message) {
         const liMessage = document.createElement("li");
-        if (message.isSentMessage())
+        let userImg = "";
+        if (message.isSentMessage()) {
+            userImg = CURRENT_USER.imgURL;
             liMessage.setAttribute("class", "sent");
-        else
+        } else {
+            userImg = this._to.imgURL;
             liMessage.setAttribute("class", "replies");
-
+        }
         const imgMessage = document.createElement("img");
-        imgMessage.setAttribute("src", message.from.imgURL);
+        imgMessage.setAttribute("src", userImg);
 
         const pText = document.createElement("p");
         pText.innerText = message.text;
@@ -141,30 +146,41 @@ class ChatFrameController {
         this._chatFrameModel = chatFrameModel;
 
         chatSidePanelView.addObserver(this.onActiveChatChanged.bind(this));
+        REQUESTER.addObserver(this);
     }
 
     onActiveChatChanged(observable, chat) {
-        console.log("hai cliccato la chat : ", chat);
-        this._chatFrameModel.updateActiveChat(this._chatFrameView, chat);
+        this._chatFrameModel.updateActiveChat(this._chatFrameView, chat.clone());
     }
 
-    onMessageArrived(message){
-        this._chatFrameModel.updateMessages(this._chatFrameView, message);
+    onUpdateChat(chats) {
+        this._chatFrameModel.updateMessages(this._chatFrameView, chats);
     }
 
 }
 
 class ChatFrameModel {
     constructor() {
-        this.activeChat = null;
+        this._activeChat = null;
     }
 
     updateActiveChat(chatFrameView, chat) {
-        this.activeChat = chat;
+        this._activeChat = chat;
         chatFrameView.updateActiveChatView(chat);
+
     }
 
-    updateMessages(chatFrameView, message) {
-        chatFrameView.addViewMessage(message);
+    updateMessages(chatFrameView, chats) {
+        let messages = null;
+        chats.forEach(chat => {
+            const usernameActiveTo = this._activeChat.to.username;
+            const messagesTmp = chat.messages;
+            console.log("+++", chat, this._activeChat);
+            if (chat.lastMessage.timestamp > this._activeChat.lastMessage.timestamp && (messagesTmp[0].fromUsername === usernameActiveTo || messagesTmp[0].toUsername === usernameActiveTo))
+                messages = messagesTmp
+
+        });
+        if (messages)
+            messages.forEach(message => chatFrameView.addViewMessage(message));
     }
 }

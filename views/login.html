@@ -2,123 +2,141 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Title</title>
     <link rel='stylesheet' href='css/login.css'>
+    <link rel='stylesheet prefetch' href='font-awesome/css/font-awesome.min.css'>
 </head>
 <body>
-<div class="login-wrap">
-    <div class="login-html">
-        <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
-        <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
-        <div class="login-form">
-            <div class="sign-in-htm">
-                <div class="group">
-                    <label for="user_login" class="label">Username</label>
-                    <input id="user_login" type="text" class="input">
+
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <div id="login_container" class="login100-form validate-form">
+                <span class="login100-form-title">
+						Login
+				</span>
+
+                <div class="wrap-input100 validate-input">
+                    <input id="user_login" class="input100" type="text" name="username" placeholder="username">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+						</span>
                 </div>
-                <div class="group">
-                    <label for="password_login" class="label">Password</label>
-                    <input id="password_login" type="password" class="input" data-type="password">
+
+                <div class="wrap-input100 validate-input" data-validate="Password is required">
+                    <input id="password_login" class="input100" type="password" name="pass" placeholder="Password">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
                 </div>
-                <div class="group">
-                    <input id="login_button" type="submit" class="button" value="Sign In">
+
+                <div class="container-login100-form-btn">
+                    <button id="login_button" class="login100-form-btn">
+                        Login
+                    </button>
                 </div>
-                <div class="hr"></div>
+
+                <div class="text-center p-t-136" style="margin-top: 4px">
+                    <a id="to_sign_up" class="txt2" href="#">
+                        Crea il tuo account
+                        <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                    </a>
+                </div>
             </div>
-            <div class="sign-up-htm">
-                <div class="group">
-                    <label for="user_sign_up" class="label">Username</label>
-                    <input id="user_sign_up" type="text" class="input">
+
+            <div id="sign_up_container" class="login100-form validate-form" style="display: none">
+                <span id="passwordErrorMessage" class="login100-form-title" style="color: red; display: none">
+						Le due password non corrispondono
+				</span>
+                <span id="usernameErrorMessage" class="login100-form-title" style="color: red; display: none">
+						Username già esistente
+				</span>
+                <span id="userErrorMessage" class="login100-form-title" style="color: red; display: none">
+						Errore nella creazione dell'utente
+				</span>
+                <span id="userSuccessMessage" class="login100-form-title" style="color: green; display: none">
+						Utente creato con successo
+				</span>
+                <span class="login100-form-title">
+						Registrati
+					</span>
+
+                <div class="wrap-input100 validate-input">
+                    <input id="user_sign_up" class="input100" type="text" name="username" placeholder="username">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+						</span>
                 </div>
-                <div class="group">
-                    <label for="password1_sign_up" class="label">Password</label>
-                    <input id="password1_sign_up" type="password" class="input" data-type="password">
+
+                <div class="wrap-input100 validate-input" data-validate="Password is required">
+                    <input id="password1_sign_up" class="input100" type="password" name="pass" placeholder="Password">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
                 </div>
-                <div class="group">
-                    <label for="password2_sign_up" class="label">Repeat Password</label>
-                    <input id="password2_sign_up" type="password" class="input" data-type="password">
+
+                <div class="wrap-input100 validate-input" data-validate="Password is required">
+                    <input id="password2_sign_up" class="input100" type="password" name="pass"
+                           placeholder="Ripeti la Password">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
                 </div>
-                <div class="group">
-                    <input id="sign_up_button" type="submit" class="button" value="Sign Up">
+
+                <div class="wrap-input100 validate-input">
+                    <input id="img_url_sign_up" class="input100" type="password" value="" name="pass" placeholder="Url immagine">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
                 </div>
-                <div class="hr"></div>
+
+                <div class="container-login100-form-btn">
+                    <button id="sign_up_button" class="login100-form-btn">
+                        Registrati
+                    </button>
+                </div>
+
+                <div class="text-center p-t-136" style="margin-top: 4px">
+                    <a id="to_login" class="txt2" href="#">
+                        <i class="fa fa-long-arrow-left m-l-5" aria-hidden="true"></i>
+                        Login
+                    </a>
+                </div>
             </div>
-        </div>
-        <div id="user_already_sign_up" style="position: relative; margin: auto; text-align: center; color: #ff4444;">
-            UTENTE GIA' REGISTRATO
-        </div>
-        <div id="password_not_matching"
-             style="position: relative; margin: auto; text-align: center; color: #ff4444; display: none">
-            LE PASSWORD NON CORRISPONDONO
         </div>
     </div>
+
+
 </div>
+
+
 </body>
 </html>
-
+<script src="js-core/chat-core.js"></script>
 <script src="js-core/requester.js"></script>
+<script src="js-view/login.js"></script>
 <script>
-    const usernameLogin = document.getElementById("user_login");
-    const passwordLogin = document.getElementById("password_login");
-
-    const usernameSignUp = document.getElementById("user_sign_up");
-    const password1SignUp = document.getElementById("password1_sign_up");
-    const password2SignUp = document.getElementById("password2_sign_up");
-
-    const userAlreadySignUp = document.getElementById("user_already_sign_up");
-    userAlreadySignUp.style.display = "none";
-
-    const passwordNotMatching = document.getElementById("password_not_matching");
-    passwordNotMatching.style.display = "none";
-
-    const signUpButton = document.getElementById("sign_up_button");
-    const loginButton = document.getElementById("login_button");
-
-    usernameLogin.onchange = function () {
-        const value = usernameLogin.value;
-        usernameLoginValid = value !== "";
-    };
-
-    passwordLogin.onchange = function () {
-        const value = passwordLogin.value;
-        passwordLoginValid = value !== "";
-    };
-
-    usernameSignUp.onchange = function () {
-        const onResponse = function (exists) {
-            usernameSignUpValid = !exists;
-            if (exists)
-                userAlreadySignUp.style.display = "block";
-            else
-                userAlreadySignUp.style.display = "none";
-
-        };
-        const value = this.value;
-        REQUESTER.existsUser(value, onResponse);
-    };
-
-    password1SignUp.onchange = function () {
-        const value = password1SignUp.value;
-        password1SignUpValid = value !== "";
-    };
 
 
-    password2SignUp.onchange = function () {
-        const value = password2SignUp.value;
-        password2SignUpValid = value !== "";
-    };
+    const loginContainer = document.getElementById("login_container");
+    const signUpContainer = document.getElementById("sign_up_container");
 
-    let usernameLoginValid = false;
-    let passwordLoginValid = false;
-    let usernameSignUpValid = false;
-    let password1SignUpValid = false;
-    let password2SignUpValid = false;
+    document.getElementById("to_login").onclick = (_ => {
+        loginContainer.style.display = "block";
+        signUpContainer.style.display = "none";
+    });
+
+    document.getElementById("to_sign_up").onclick = (_ => {
+        signUpContainer.style.display = "block";
+        loginContainer.style.display = "none";
+    });
 
 
-    loginButton.onclick = function () {
-        if (usernameLoginValid && passwordLoginValid){
-            console.log("VALID!");
-        }
-
-    }
 </script>

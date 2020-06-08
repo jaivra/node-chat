@@ -1,12 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="js-core/chat-core.js"></script>
+    <script src="js-core/requester.js"></script>
+    <script>
+        // localStorage.removeItem("current_user");
+        console.log("****", localStorage.getItem("current_user"));
+
+        function redirectToLogin() {
+            const currentURL = document.URL;
+            const tokens = currentURL.split("/");
+            window.location.replace(tokens[0] + "/login");
+        }
+
+        const currentUserData = localStorage.getItem("current_user");
+        if (!currentUserData)
+            redirectToLogin();
+
+        const jsonUser = JSON.parse(currentUserData);
+        CURRENT_USER = User.fromJSON(jsonUser);
+    </script>
+
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet'
           type='text/css'>
 
     <link rel='stylesheet prefetch' href='css/reset.min.css'>
-    <link rel='stylesheet prefetch'
-          href='font-awesome/css/font-awesome.min.css'>
+    <link rel='stylesheet prefetch' href='font-awesome/css/font-awesome.min.css'>
     <link rel='stylesheet' href="css/my_style.css">
 </head>
 <body>
@@ -40,7 +59,7 @@
             </div>
         </div>
         <div id="search">
-            <label ><i class="fa fa-search" aria-hidden="true"></i></label>
+            <label><i class="fa fa-search" aria-hidden="true"></i></label>
             <input type="text" placeholder="Search contacts..."/>
         </div>
         <div id="contacts"></div>
@@ -53,40 +72,28 @@
     <div class="content" id="active-chat">
     </div>
 </div>
+<a id="logout_button" href="#" class="float">
+    <i class="fa fa-sign-out my-float"></i>
+</a>
 </body>
 </html>
 
 <script>
-    const TEST = false;
 
-    const logElement = document.getElementById("log");
-
-    function logHtml(text, append = true) {
-        if (append)
-            logElement.innerText += text;
-        else
-            logElement.innerText = text;
-
-        logElement.innerHTML += "<br>"
-    }
-
-    function resetLog() {
-        logElement.innerText = "";
-    }
-
+    document.getElementById("logout_button").onclick = function () {
+        localStorage.removeItem("current_user");
+        redirectToLogin();
+    };
 </script>
-<script type='text/javascript'>
-    const JSON_DATA = <%-JSON_DATA%>;
-    console.log("*****", JSON_DATA);
-</script>
+
+
 <script src="js-view/util.js"></script>
 <script src="js-view/chat-sidepanel.js"></script>
 <script src="js-view/chat-frame.js"></script>
-<script src="js-core/chat-core.js"></script>
-<script src="test/chat-core-test.js"></script>
-<script src="test/generator-data.js"></script>
-<script src="js-view/init.js"></script>
+<!--<script src="test/chat-core-test.js"></script>-->
+<!--<script src="test/generator-data.js"></script>-->
 
-<script src="test/test.js"></script>
+<!--<script src="test/test.js"></script>-->
+<script src="js-view/init.js"></script>
 
 

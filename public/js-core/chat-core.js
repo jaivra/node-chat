@@ -29,25 +29,25 @@ class User {
     }
 
     static fromJSON(JSONUser) {
-        return new User(JSONUser._username, JSONUser._imgURL);
+        return new User(JSONUser.username, JSONUser.img_url);
     }
 }
 
 
 class Message {
     constructor(from_username, to_username, text, timestamp) {
-        this._from_username = from_username;
-        this._to_username = to_username;
+        this._fromUsername = from_username;
+        this._toUsername = to_username;
         this._text = text;
         this._timestamp = timestamp
     }
 
     get fromUsername() {
-        return this._from_username;
+        return this._fromUsername;
     }
 
     get toUsername() {
-        return this._to_username;
+        return this._toUsername;
     }
 
     get text() {
@@ -59,24 +59,22 @@ class Message {
     }
 
     isSentMessage() {
-        return this._from_username === CURRENT_USER.username
+        return this._fromUsername === CURRENT_USER.username
     }
 
     toJson() {
         return {
-            "from_username": this._from_username,
-            "to_username": this._to_username,
+            "from_username": this._fromUsername,
+            "to_username": this._toUsername,
             "text": this._text,
             "timestamp": this._timestamp
         };
     }
 
-    //
-    // static fromJSON(JSONMessage) {
-    //     const from = User.fromJSON(JSONMessage._from);
-    //     const to = User.fromJSON(JSONMessage._to)
-    //     return new Message(JSONMessage._id, from, to, JSONMessage._text, JSONMessage._timestamp);
-    // }
+
+    static fromJSON(JSONMessage) {
+        return new Message(JSONMessage.from_username, JSONMessage.to_username, JSONMessage.text, JSONMessage.timestamp);
+    }
 }
 
 
@@ -86,7 +84,7 @@ class Chat {
         this._messages = messages;
         this._messages.sortMessage = function () {
             this.sort((message1, message2) => {
-                    return message2.timestamp - message1.timestamp
+                    return message1.timestamp - message2.timestamp
                 }
             )
         };
@@ -107,7 +105,7 @@ class Chat {
     }
 
     get lastMessage() {
-        return this._messages[0]
+        return this._messages[this._messages.length - 1]
     }
 
     toJson() {
@@ -124,17 +122,19 @@ class Chat {
         };
     }
 
+    static fromJSON(JSONChat) {
+        const messages = [];
+        const to = User.fromJSON(JSONChat.to_user);
+        JSONChat.messages.forEach(JSONMessage => {
+            messages.push(Message.fromJSON(JSONMessage));
+        });
 
-    //
-    // static fromJSON(JSONChat) {
-    //     const messages = [];
-    //     JSONChat._messages.forEach(JSONMessage => {
-    //         messages.push(Message.fromJSON(JSONMessage));
-    //     });
-    //
-    //     const to = User.fromJSON(JSONChat._to);
-    //     return new Chat(to, messages);
-    // }
+        return new Chat(to, messages);
+    }
+
+    clone(){
+        return Chat.fromJSON(this.toJson(this));
+    }
 }
 
 
