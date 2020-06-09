@@ -14,7 +14,7 @@ class DB {
             user: user,
             password: password,
             max: 30 // use up to 30 connections
-        }
+        };
         this._db = pgp(cn)
     }
 
@@ -29,7 +29,6 @@ class DB {
             query += " AND password=${password}";
             params['password'] = user.password
         }
-        console.log(query, params);
         return this._db.query(query, params);
     }
 
@@ -47,10 +46,9 @@ class DB {
             "INNER JOIN c_user c2 ON c2.username = cm.user_from " +
             "WHERE cm.timestamp > to_timestamp(${timestamp})";
 
-        console.log(query);
         const params = {
             current_username: currentUser.username,
-            timestamp: timestamp / 1000
+            timestamp: (timestamp - 1000) / 1000
         };
         return this._db.query(query, params);
     }
@@ -77,50 +75,29 @@ class DB {
         return this._db.query(query, params)
     }
 
+    listUserWithoutChat(user, usernameQuery) {
+        let query = "SELECT DISTINCT(c_user.username), c_user.img " +
+            "FROM c_user " +
+            "WHERE c_user.username NOT IN ( " +
+            "    SELECT m1.user_to " +
+            "    FROM c_message AS m1 " +
+            "    WHERE m1.user_from = ${username} " +
+            "    UNION " +
+            "    SELECT m1.user_from " +
+            "    FROM c_message AS m1 " +
+            "    WHERE m1.user_to = ${username} " +
+            "    UNION " +
+            "    SELECT ${username} )" +
+            "AND c_user.username LIKE ${usernameQuery}";
+        const params = {
+            username: user.username,
+            usernameQuery: usernameQuery + "%"
+        };
+        return this._db.query(query, params);
+    }
+
 }
 
 //
 const db = new DB("localhost", "5432", "node_chat", "valerio", "postgress");
 module.exports = db;
-
-//
-// const user1 = new User(null, "vale1", "https://vignette.wikia.nocookie.net/onepiece/images/0/0a/Whitebeard_Jumputi.png/revision/latest?cb=20190927232401", "prova")
-// const user2 = new User(null, "vale2", "https://cdn3.iconfinder.com/data/icons/one-piece-colored/48/Cartoons__Anime_One_Piece_Artboard_11-512.png", "prova")
-// const user1Tmp = new User(null, "vale1", "prova");
-// const user2Tmp = new User(null, "vale2", "prova");
-// // db.insertUser(user1);
-// // db.insertUser(user2);
-//
-// Promise.all([db.getUser(user1Tmp), db.getUser(user2Tmp)])
-//     .then(value => {
-//         const user1Data = value[0][0]
-//         const user2Data = value[1][0]
-//         const user1 = new User(user1Data["user_id"], user1Data["user_username"], user1Data["user_img"])
-//         const user2 = new User(user2Data["user_id"], user2Data["user_username"], user2Data["user_img"])
-//         return [user1, user2]
-//     })
-//     .then(users => {
-//         return db.insertMessage(users[0], users[1], 1234, "ciaooo")
-//             .then(r => {
-//                 return users
-//             })
-//     })
-//     .then(function (users) {
-//         return db.getMessages(users[0], users[1])
-//     })
-//     // .then(result => {
-//     //     console.log("Result: ", result)
-//     // })
-//     .catch(console.log)
-
-// db.insertMessage(user1, user2, 1234, "ciaooo");
-// db.selectUser(user_id)
-//     .then(value => console.log(value));
-//     .then(function (data) {
-//         console.log('DATA:', data.value)
-//     })
-//     .catch(function (error) {
-//         console.log('ERROR:', error)
-//     })
-
-

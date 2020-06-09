@@ -105,7 +105,7 @@ class Chat {
     }
 
     get lastMessage() {
-        return this._messages[this._messages.length - 1]
+        return this._messages[this._messages.length - 1];
     }
 
     toJson() {

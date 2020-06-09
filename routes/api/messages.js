@@ -22,7 +22,6 @@ router.post('/', function (req, res, next) {
 
     db.insertMessage(userFrom, userTo, timestamp, text)
         .then(messages => {
-            console.log("response:", messages);
             // if (users.length > 0) {
             //     res.status(200);
             //     res.json(JSON.stringify(users));
@@ -81,7 +80,6 @@ router.get('/', function (req, res, next) {
         .then(chats => {
             const chatsJson = [];
             chats.forEach(chat => chatsJson.push(chat.toJson()));
-            console.log(chats);
             res.send(chatsJson)
         })
         .catch(_ => {

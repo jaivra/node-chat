@@ -15,11 +15,10 @@ router.post('/login/', function (req, res, next) {
     const password = req.param("password", "");
     const userToLogin = new User(username, null, password);
     // console.log("***", username);
-    console.log("***", username, password);
     db.getUser(userToLogin)
         .then(users => {
             if (users.length > 0) {
-                const loggedUser = new User(users[0].username, users[0].img)
+                const loggedUser = new User(users[0].username, users[0].img);
                 res.status(200);
                 res.send(loggedUser.toJson());
             } else {
@@ -52,7 +51,7 @@ router.post('/sign_up/', function (req, res, next) {
     const username = req.param("username");
     const imgURL = req.param("img_url");
     const password = req.param("password");
-    const newUser = new User( username, imgURL, password);
+    const newUser = new User(username, imgURL, password);
     db.insertUser(newUser)
         .then(success => {
             res.status(201);
@@ -67,4 +66,34 @@ router.post('/sign_up/', function (req, res, next) {
 
 });
 
+
+router.get('/list/', function (req, res, next) {
+    const username = req.param("username");
+    const usernameQuery = req.param("q");
+    const userFrom = new User(username);
+    db.getUser(userFrom)
+        .then(users => {
+            if (users.length > 0)
+                return db.listUserWithoutChat(userFrom, usernameQuery);
+            else
+                throw new Error("");
+        })
+        .then(usersData => {
+            const users = [];
+            usersData.forEach(userData => {
+                const user = new User(userData.username, userData.img);
+                users.push(user.toJson(user))
+            });
+            console.log(usersData);
+            res.status(200);
+            return users;
+        })
+        .catch(_ => {
+            res.status(404);
+            return null;
+        })
+        .then(body => res.send(body));
+    res.setHeader('Content-Type', 'application/json');
+
+});
 module.exports = router;

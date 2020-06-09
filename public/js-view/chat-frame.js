@@ -47,6 +47,7 @@ class ChatFrameView extends ObservableView {
 
         const imgContact = document.createElement("img");
         imgContact.setAttribute("src", userTo.imgURL);
+        imgContact.setAttribute("onerror", "this.src='https://www.dalarail.com/files/dummy-1.png'");
 
         const pContact = document.createElement("p");
         pContact.innerText = userTo.username;
@@ -56,6 +57,14 @@ class ChatFrameView extends ObservableView {
 
         return divContact;
 
+    }
+
+    _onClickSendMessage(textElement) {
+        const text = textElement.value;
+        if (text !== "" && this._to !== null) {
+            REQUESTER.sendMessage(this._to.username, text);
+            textElement.value = "";
+        }
     }
 
     _createChatInputElement() {
@@ -76,10 +85,17 @@ class ChatFrameView extends ObservableView {
         iconButton.setAttribute("class", "fa fa-paper-plane");
         iconButton.setAttribute("aria-hidden", "true");
 
-        // submitButton.appendChild(iconButton);
-        // submitButton.onclick = function() {
-        //     newMessage();
-        // });
+        submitButton.appendChild(iconButton);
+        submitButton.onclick = function () {
+            this._onClickSendMessage(inputText);
+        }.bind(this);
+
+        inputText.addEventListener("keyup", function (event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                this._onClickSendMessage(inputText);
+            }
+        }.bind(this));
 
         // $(window).on('keydown', function (e) {
         //     if (e.which === 13) {
@@ -129,6 +145,7 @@ class ChatFrameView extends ObservableView {
         }
         const imgMessage = document.createElement("img");
         imgMessage.setAttribute("src", userImg);
+        imgMessage.setAttribute("onerror", "this.src='https://www.dalarail.com/files/dummy-1.png'");
 
         const pText = document.createElement("p");
         pText.innerText = message.text;
@@ -145,7 +162,7 @@ class ChatFrameController {
         this._chatFrameView = chatFrameView;
         this._chatFrameModel = chatFrameModel;
 
-        chatSidePanelView.addObserver(this.onActiveChatChanged.bind(this));
+        chatSidePanelView.addObserver("activeChatChange", this.onActiveChatChanged.bind(this));
         REQUESTER.addObserver(this);
     }
 
@@ -171,16 +188,21 @@ class ChatFrameModel {
     }
 
     updateMessages(chatFrameView, chats) {
-        let messages = null;
+        let messages = [];
         chats.forEach(chat => {
             const usernameActiveTo = this._activeChat.to.username;
             const messagesTmp = chat.messages;
-            console.log("+++", chat, this._activeChat);
-            if (chat.lastMessage.timestamp > this._activeChat.lastMessage.timestamp && (messagesTmp[0].fromUsername === usernameActiveTo || messagesTmp[0].toUsername === usernameActiveTo))
-                messages = messagesTmp
+            if ((messagesTmp[0].fromUsername === usernameActiveTo || messagesTmp[0].toUsername === usernameActiveTo) && chat.lastMessage.timestamp > this._activeChat.lastMessage.timestamp) {
+                messagesTmp.forEach(message => {
+                    if (message.timestamp > this._activeChat.lastMessage.timestamp){
+                        messages.push(message);
+                        this._activeChat.addMessage(message);
+                    }
+                })
+            }
 
         });
-        if (messages)
+        if (messages.length > 0)
             messages.forEach(message => chatFrameView.addViewMessage(message));
     }
 }

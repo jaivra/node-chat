@@ -1,8 +1,8 @@
 class Requester {
     constructor() {
         this._timestampRequest = 0;
-        this._requestPeriodicTime = 1500;
-        this._observers = []
+        this._requestPeriodicTime = 500;
+        this._observers = [];
 
         const url = window.location.href;
         const tokens = url.split("/");
@@ -13,9 +13,9 @@ class Requester {
     existsUser(username, callback) {
         const httpRequest = new XMLHttpRequest();
         httpRequest.onreadystatechange = function () {
-            if (httpRequest.status === 200)
+            if (httpRequest.readyState === 4 && httpRequest.status === 200)
                 callback(true);
-            else if (httpRequest.status === 404)
+            else if (httpRequest.readyState === 4 && httpRequest.status === 404)
                 callback(false);
 
         };
@@ -68,7 +68,6 @@ class Requester {
     }
 
     chatRequest() {
-        console.log("Richiesta");
         const httpRequest = new XMLHttpRequest();
         httpRequest.onreadystatechange = function () {
             if (httpRequest.readyState === 4 && httpRequest.status === 200) {
@@ -88,6 +87,40 @@ class Requester {
 
         this._timestampRequest = Date.now();
         httpRequest.send(params);
+    }
+
+    sendMessage(usernameTo, text) {
+        const timestamp = Date.now();
+
+        const httpRequest = new XMLHttpRequest();
+
+        const params = 'username_from=' + CURRENT_USER.username + "&" + "username_to=" + usernameTo + "&" + "timestamp=" + timestamp + "&" + "text=" + text;
+        httpRequest.open('POST', this.baseURL + "api/messages?" + params, true);
+        httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        this._timestampRequest = Date.now();
+        httpRequest.send(params);
+    }
+
+
+    listUser(query, callback) {
+        const httpRequest = new XMLHttpRequest();
+        httpRequest.onreadystatechange = function () {
+            if (httpRequest.readyState === 4 && httpRequest.status === 200) {
+                const usernamesData = JSON.parse(httpRequest.responseText);
+                const users = [];
+                usernamesData.forEach(usernameData => {
+                    users.push(User.fromJSON(usernameData));
+                });
+                callback(users, query);
+            }
+            // else if (httpRequest.status === 404)
+            //     callback(false);
+
+        };
+        const params = 'username=' + CURRENT_USER.username + "&" + "q=" +query;
+        httpRequest.open('GET', this.baseURL + "api/users/list?" + params, true);
+        httpRequest.send();
     }
 }
 
