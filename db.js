@@ -34,31 +34,31 @@ class DB {
 
     getMessages(currentUser, timestamp) {
         let query =
-            "SELECT cm.user_from, cm.user_to, cm.text, trunc(EXTRACT(epoch FROM cm.timestamp)) * 1000 as timestamp, c2.img as img_URL " +
+            "SELECT cm.user_from, cm.user_to, cm.text, timestamp, c2.img as img_URL " +
             "FROM c_user c1 " +
             "INNER JOIN c_message cm on ${current_username} = cm.user_from " +
             "INNER JOIN c_user c2 on c2.username = cm.user_to " +
-            "WHERE cm.timestamp > to_timestamp(${timestamp}) " +
+            "WHERE cm.timestamp > ${timestamp} " +
             "UNION " +
-            "SELECT cm.user_from, cm.user_to, cm.text, trunc(EXTRACT(epoch FROM cm.timestamp)) * 1000 as timestamp, c2.img as img_URL " +
+            "SELECT cm.user_from, cm.user_to, cm.text, timestamp, c2.img as img_URL " +
             "FROM c_user c1 " +
             "INNER JOIN c_message cm ON ${current_username} = cm.user_to " +
             "INNER JOIN c_user c2 ON c2.username = cm.user_from " +
-            "WHERE cm.timestamp > to_timestamp(${timestamp})";
+            "WHERE cm.timestamp > ${timestamp}";
 
         const params = {
             current_username: currentUser.username,
-            timestamp: (timestamp - 1000) / 1000
+            timestamp: timestamp - 5000
         };
         return this._db.query(query, params);
     }
 
     insertMessage(from, to, timestamp, text) {
-        const query = "INSERT INTO c_message (user_from, user_to, timestamp, text) VALUES (${from_id}, ${to_id}, to_timestamp(${timestamp}), ${text})";
+        const query = "INSERT INTO c_message (user_from, user_to, timestamp, text) VALUES (${from_id}, ${to_id}, ${timestamp}, ${text})";
         const params = {
             from_id: from.username,
             to_id: to.username,
-            timestamp: timestamp / 1000,
+            timestamp: timestamp,
             text: text
         };
         return this._db.query(query, params);

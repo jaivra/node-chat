@@ -188,11 +188,13 @@ class ChatFrameModel {
     }
 
     updateMessages(chatFrameView, chats) {
+
         let messages = [];
         chats.forEach(chat => {
             const usernameActiveTo = this._activeChat.to.username;
+            const userTmp = chat.to;
             const messagesTmp = chat.messages;
-            if ((messagesTmp[0].fromUsername === usernameActiveTo || messagesTmp[0].toUsername === usernameActiveTo) && chat.lastMessage.timestamp > this._activeChat.lastMessage.timestamp) {
+            if ((userTmp.username === usernameActiveTo || userTmp.username === usernameActiveTo) && chat.lastMessage.timestamp > this._activeChat.lastMessage.timestamp) {
                 messagesTmp.forEach(message => {
                     if (message.timestamp > this._activeChat.lastMessage.timestamp){
                         messages.push(message);

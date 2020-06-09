@@ -244,24 +244,36 @@ class SidePanelModel {
     }
 
     updateChats(sidePanelView, chats) {
+
+        let updated = false;
         chats.forEach(chat => {
-            const exists = this._addMessages(chat);
-            if (!exists)
-                this._chats.push(chat);
+            updated = this._addMessages(chat) || updated;
         });
         this._sortChats();
-        sidePanelView.updateChatsView(this._chats);
+        if (updated)
+            sidePanelView.updateChatsView(this._chats);
     }
 
     //TODO check last message timestamp
     _addMessages(newChat) {
-        return this._chats.some(chat => {
+        let exists = false;
+        let updated = false;
+        this._chats.forEach(chat => {
             if (chat.to.username === newChat.to.username) {
-                newChat.messages.forEach(message => chat.addMessage(message));
-                return true;
+                exists = true;
+                newChat.messages.forEach(message => {
+                    if (message.timestamp > chat.lastMessage.timestamp) {
+                        updated = true;
+                        chat.addMessage(message)
+                    }
+                });
             }
-            return false;
         });
+        if (!exists) {
+            this._chats.push(newChat);
+            updated = true;
+        }
+        return updated;
     }
 
     _sortChats() {
@@ -272,7 +284,6 @@ class SidePanelModel {
 
     searchUsers(sidePanelView, query) {
         const onSearchResult = function (users, querySearched) {
-            console.log("****", querySearched);
             if (querySearched === this._lastSearchQuery)
                 if (querySearched === "")
                     sidePanelView.updateChatsView(this._chats);
@@ -283,7 +294,7 @@ class SidePanelModel {
         REQUESTER.listUser(query, onSearchResult);
     }
 
-    startNewChat(sidePanelView, userTo){
+    startNewChat(sidePanelView, userTo) {
         this._lastSearchQuery = "";
         REQUESTER.sendMessage(userTo.username, "Ciao " + userTo.username)
         sidePanelView.updateChatsView(this._chats);

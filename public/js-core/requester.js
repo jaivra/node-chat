@@ -1,7 +1,7 @@
 class Requester {
     constructor() {
         this._timestampRequest = 0;
-        this._requestPeriodicTime = 500;
+        this._requestPeriodicTime = 850;
         this._observers = [];
 
         const url = window.location.href;
