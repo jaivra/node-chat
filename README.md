@@ -1,5 +1,8 @@
 # Progetto per il corso "Tecnologie e linguaggi per il web"
-Il progetto realizzato consiste in una web live chat: Un utente, dopo
+una web live chat
+
+## Introduzione
+Un utente, dopo
 essersi registrato, può iniziare a chattare con i propri amici/conoscenti
 solamente conoscendo il loro username (scelto appositamente nella fase
 di registrazione).
