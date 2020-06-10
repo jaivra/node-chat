@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel='stylesheet' href='css/login.css'>
+</head>
+<body>
+<div class="login-wrap">
+    <div class="login-html">
+        <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
+        <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+        <div class="login-form">
+            <div class="sign-in-htm">
+                <div class="group">
+                    <label for="user_login" class="label">Username</label>
+                    <input id="user_login" type="text" class="input">
+                </div>
+                <div class="group">
+                    <label for="password_login" class="label">Password</label>
+                    <input id="password_login" type="password" class="input" data-type="password">
+                </div>
+                <div class="group">
+                    <input id="login_button" type="submit" class="button" value="Sign In">
+                </div>
+                <div class="hr"></div>
+            </div>
+            <div class="sign-up-htm">
+                <div class="group">
+                    <label for="user_sign_up" class="label">Username</label>
+                    <input id="user_sign_up" type="text" class="input">
+                </div>
+                <div class="group">
+                    <label for="password1_sign_up" class="label">Password</label>
+                    <input id="password1_sign_up" type="password" class="input" data-type="password">
+                </div>
+                <div class="group">
+                    <label for="password2_sign_up" class="label">Repeat Password</label>
+                    <input id="password2_sign_up" type="password" class="input" data-type="password">
+                </div>
+                <div class="group">
+                    <input id="sign_up_button" type="submit" class="button" value="Sign Up">
+                </div>
+                <div class="hr"></div>
+            </div>
+        </div>
+        <div id="user_already_sign_up" style="position: relative; margin: auto; text-align: center; color: #ff4444;">
+            UTENTE GIA' REGISTRATO
+        </div>
+        <div id="password_not_matching"
+             style="position: relative; margin: auto; text-align: center; color: #ff4444; display: none">
+            LE PASSWORD NON CORRISPONDONO
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script src="js-core/chat-core.js"></script>
+<script src="js-core/requester.js"></script>
+
+<script>
+
+    if (localStorage.getItem("current_user"))
+        userLogged();
+
+    const usernameLogin = document.getElementById("user_login");
+    const passwordLogin = document.getElementById("password_login");
+
+    const usernameSignUp = document.getElementById("user_sign_up");
+    const password1SignUp = document.getElementById("password1_sign_up");
+    const password2SignUp = document.getElementById("password2_sign_up");
+
+    const userAlreadySignUp = document.getElementById("user_already_sign_up");
+    userAlreadySignUp.style.display = "none";
+
+    const passwordNotMatching = document.getElementById("password_not_matching");
+    passwordNotMatching.style.display = "none";
+
+    const signUpButton = document.getElementById("sign_up_button");
+    const loginButton = document.getElementById("login_button");
+
+    usernameLogin.onchange = function () {
+        const value = usernameLogin.value;
+        usernameLoginValid = value !== "";
+    };
+
+    passwordLogin.onchange = function () {
+        const value = passwordLogin.value;
+        passwordLoginValid = value !== "";
+    };
+
+    usernameSignUp.onchange = function () {
+        const onResponse = function (exists) {
+            usernameSignUpValid = !exists;
+            if (exists)
+                userAlreadySignUp.style.display = "block";
+            else
+                userAlreadySignUp.style.display = "none";
+
+        };
+        const value = this.value;
+        REQUESTER.existsUser(value, onResponse);
+    };
+
+    password1SignUp.onchange = function () {
+        const value = password1SignUp.value;
+        password1SignUpValid = value !== "";
+    };
+
+
+    password2SignUp.onchange = function () {
+        const value = password2SignUp.value;
+        password2SignUpValid = value !== "";
+    };
+
+    let usernameLoginValid = false;
+    let passwordLoginValid = false;
+    let usernameSignUpValid = false;
+    let password1SignUpValid = false;
+    let password2SignUpValid = false;
+
+
+    loginButton.onclick = function () {
+        const onLoginResponse = function (user) {
+            if (user !== null) {
+                console.log("--", user);
+                localStorage.setItem('current_user', JSON.stringify(user.toJson()));
+                userLogged();
+            }
+        };
+        if (usernameLoginValid && passwordLoginValid) {
+            const username = usernameLogin.value;
+            const password = passwordLogin.value;
+            REQUESTER.loginUser(username, password, onLoginResponse);
+        }
+    };
+
+
+    function userLogged(){
+        const currentURL = document.URL;
+        const tokens = currentURL.split("/");
+        tokens.pop();
+        const newURL = tokens.join("/");
+        window.location.replace(newURL);
+    }
+</script>
