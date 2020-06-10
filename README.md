@@ -1,9 +1,8 @@
-# Progetto per il corso "Tecnologie e linguaggi per il web"
-una web live chat
+# Node-chat
+Web live chat per il corso universitario "Tecnologie e linguaggi per il web"
 
 ## Introduzione
-Un utente, dopo
-essersi registrato, può iniziare a chattare con i propri amici/conoscenti
+Un utente, dopo essersi registrato, può iniziare a chattare con i propri amici/conoscenti
 solamente conoscendo il loro username (scelto appositamente nella fase
 di registrazione).
 Per ottimizzare la velocità di esecuzione ho deciso di non affidarmi a
