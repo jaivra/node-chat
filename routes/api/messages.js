@@ -79,7 +79,7 @@ router.get('/', function (req, res, next) {
         })
         .then(chats => {
             const chatsJson = [];
-            chats.forEach(chat => chatsJson.push(chat.toJson()));
+            chats.forEach(chat => chatsJson.push(chat.toJSON()));
             res.send(chatsJson)
         })
         .catch(_ => {

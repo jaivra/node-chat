@@ -57,7 +57,7 @@ loginButton.onclick = function () {
     const onLoginResponse = function (user) {
         if (user !== null) {
             console.log("--", user);
-            localStorage.setItem('current_user', JSON.stringify(user.toJson()));
+            localStorage.setItem('current_user', JSON.stringify(user.toJSON()));
             userLogged();
         }
     };

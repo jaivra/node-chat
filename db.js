@@ -1,10 +1,5 @@
 const pgp = require('pg-promise')(/* options */);
 
-// db.connect()
-//     .then(value => console.log("OK"))
-//     .catch(reason => console.log("NO"))
-
-
 class DB {
     constructor(host, port, database, user, password) {
         const cn = {

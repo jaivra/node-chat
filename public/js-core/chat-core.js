@@ -21,7 +21,7 @@ class User {
         return this._password;
     }
 
-    toJson() {
+    toJSON() {
         return {
             "username": this._username,
             "img_url": this._imgURL
@@ -58,11 +58,7 @@ class Message {
         return this._timestamp;
     }
 
-    isSentMessage() {
-        return this._fromUsername === CURRENT_USER.username
-    }
-
-    toJson() {
+    toJSON() {
         return {
             "from_username": this._fromUsername,
             "to_username": this._toUsername,
@@ -71,10 +67,14 @@ class Message {
         };
     }
 
-
     static fromJSON(JSONMessage) {
         return new Message(JSONMessage.from_username, JSONMessage.to_username, JSONMessage.text, JSONMessage.timestamp);
     }
+
+    isSentMessage() {
+        return this._fromUsername === CURRENT_USER.username
+    }
+
 }
 
 
@@ -108,13 +108,13 @@ class Chat {
         return this._messages[this._messages.length - 1];
     }
 
-    toJson() {
+    toJSON() {
         const messagesJson = [];
         this._messages.forEach(message =>
-            messagesJson.push(message.toJson())
+            messagesJson.push(message.toJSON())
         );
 
-        const toUserJson = this.to.toJson();
+        const toUserJson = this.to.toJSON();
 
         return {
             "to_user": toUserJson,
@@ -132,8 +132,8 @@ class Chat {
         return new Chat(to, messages);
     }
 
-    clone(){
-        return Chat.fromJSON(this.toJson(this));
+    clone() {
+        return Chat.fromJSON(this.toJSON(this));
     }
 }
 

@@ -20,7 +20,7 @@ router.post('/login/', function (req, res, next) {
             if (users.length > 0) {
                 const loggedUser = new User(users[0].username, users[0].img);
                 res.status(200);
-                res.send(loggedUser.toJson());
+                res.send(loggedUser.toJSON());
             } else {
                 res.status(404);
                 res.end()
@@ -82,7 +82,7 @@ router.get('/list/', function (req, res, next) {
             const users = [];
             usersData.forEach(userData => {
                 const user = new User(userData.username, userData.img);
-                users.push(user.toJson(user))
+                users.push(user.toJSON(user))
             });
             console.log(usersData);
             res.status(200);
