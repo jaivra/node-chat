@@ -12,3 +12,4 @@ con la specifica standard ECMAScript 6.
 Per quanto riguarda il server ho utlizzato Node.js con il framework Express.
 come DBMS ho utilizzato Postgresql, con la libreria ’pg-promise’ per
 interfacciarmi ad esso.
+![alt text](documentation/chat-mock.jpg)
