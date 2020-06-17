@@ -22,12 +22,12 @@ router.post('/', function (req, res, next) {
 
     db.insertMessage(userFrom, userTo, timestamp, text)
         .then(messages => {
-            // if (users.length > 0) {
-            //     res.status(200);
-            //     res.json(JSON.stringify(users));
-            // } else {
-            //     res.status(404);
-            res.end()
+            res.status(201);
+            res.end();
+        })
+        .catch(_=> {
+            res.status(400);
+            res.end();
         });
     res.setHeader('Content-Type', 'application/json');
 
@@ -96,39 +96,5 @@ router.get('/', function (req, res, next) {
 
 });
 
-
-router.get('/exists/', function (req, res, next) {
-    const username = req.param("username");
-    const userToCheck = new User(null, username, null, null);
-    db.getUser(userToCheck)
-        .then(users => {
-            if (users.length > 0)
-                res.status(200);
-            else
-                res.status(404);
-
-            res.end()
-        });
-    res.setHeader('Content-Type', 'application/json');
-
-});
-
-router.post('/signup/', function (req, res, next) {
-    const username = req.param("username");
-    const imgURL = req.param("imgURL");
-    const password = req.param("password");
-    const newUser = new User(null, username, imgURL, password);
-    db.insertUser(newUser)
-        .then(success => {
-            res.status(201);
-            res.end()
-        })
-        .catch(_ => {
-            res.status(400);
-            res.end()
-        });
-    res.setHeader('Content-Type', 'application/json');
-
-});
 
 module.exports = router;

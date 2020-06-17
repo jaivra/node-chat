@@ -4,18 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var usersRouter = require('./routes/api/users');
-// var chatsRouter = require('./routes/api/chats');
+var usersRiamoouter = require('./routes/api/users');
 var messagesRouter = require('./routes/api/messages');
 var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/test');
 
 var app = express();
 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
