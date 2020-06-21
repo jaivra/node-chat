@@ -30,7 +30,7 @@ class SidePanelView extends ObservableView {
         iconSearch.setAttribute("aria-hidden", "true");
         this._inputSearchList = document.createElement("input");
         this._inputSearchList.setAttribute("type", "text");
-        this._inputSearchList.setAttribute("placeholder", "Cerca nuovi contatti..");
+        // this._inputSearchList.setAttribute("placeholder", "Cerca nuovi contatti..");
         labelSearch.appendChild(iconSearch);
         searchChat.appendChild(labelSearch);
         searchChat.appendChild(this._inputSearchList);
@@ -207,7 +207,7 @@ class SidePanelView extends ObservableView {
     }
 
     static _lastMessagePreview(lastMessage) {
-        const messagePreview = lastMessage.from_username === CURRENT_USER.username ? "<span>You:</span>" : "";
+        const messagePreview = lastMessage.fromUsername === CURRENT_USER.username ? "<span>You:</span>" : "";
         return messagePreview + lastMessage.text
     }
 }

@@ -348,7 +348,7 @@ body {
 
 @media screen and (max-width: 735px) {
     #frame #sidepanel #search {
-        display: none;
+        /*display: none;*/
     }
 }
 
@@ -632,6 +632,13 @@ body {
     }
 }
 
+@media screen and (max-width: 550px) {
+    #frame .content {
+        width: calc(100% - 58px);
+        min-width: 100px !important;
+    }
+}
+
 @media screen and (min-width: 900px) {
     #frame .content {
         width: calc(100% - 340px);
@@ -830,16 +837,18 @@ body {
 
 .float{
     position:fixed;
-    width:60px;
-    height:60px;
+    width:44px;
+    height:44px;
     bottom:10px;
     left:10px;
     background-color: #dc2b2b;
     color:#FFF;
     border-radius:50px;
     text-align:center;
+    z-index: 100;
 }
 
 .my-float{
-    margin-top:22px;
+    margin-top:14px;
 }
+

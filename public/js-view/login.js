@@ -58,8 +58,11 @@ loginButton.onclick = function () {
         if (user !== null) {
             console.log("--", user);
             localStorage.setItem('current_user', JSON.stringify(user.toJSON()));
-            userLogged();
+            setTimeout(userLogged, 1200);
+            showViewMessage(loginSuccessMessage);
         }
+        else
+            showViewMessage(loginErrorMessage, true)
     };
     if (usernameLoginValid && passwordLoginValid) {
         const username = usernameLogin.value;
@@ -98,11 +101,13 @@ function userLogged() {
     window.location.replace(newURL);
 }
 
+const loginErrorMessage = document.getElementById("login_error_message");
+const loginSuccessMessage = document.getElementById("login_success_message");
 
-const usernameErrorMessage = document.getElementById("usernameErrorMessage");
-const passwordErrorMessage = document.getElementById("passwordErrorMessage");
-const userErrorMessage = document.getElementById("userErrorMessage");
-const userSuccessMessage = document.getElementById("userSuccessMessage");
+const usernameErrorMessage = document.getElementById("username_error_message");
+const passwordErrorMessage = document.getElementById("password_error_message");
+const userErrorMessage = document.getElementById("user_error_message");
+const userSuccessMessage = document.getElementById("user_success_message");
 
 function showViewMessage(elementId, temporized = false) {
     elementId.style.display = "block";

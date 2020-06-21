@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Title</title>
+    <title>Login</title>
     <link rel='stylesheet' href='css/login.css'>
     <link rel='stylesheet prefetch' href='font-awesome/css/font-awesome.min.css'>
 </head>
@@ -13,6 +13,12 @@
     <div class="container-login100">
         <div class="wrap-login100">
             <div id="login_container" class="login100-form validate-form">
+                <span id="login_error_message" class="login100-form-title" style="color: red; display: none">
+						Username o password errati
+				</span>
+                <span id="login_success_message" class="login100-form-title" style="color: green; display: none">
+						Login avvenuto con successo
+				</span>
                 <span class="login100-form-title">
 						Login
 				</span>
@@ -21,7 +27,7 @@
                     <input id="user_login" class="input100" type="text" name="username" placeholder="username">
                     <span class="focus-input100"></span>
                     <span class="symbol-input100">
-							<i class="fa fa-envelope" aria-hidden="true"></i>
+							<i class="fa fa-user" aria-hidden="true"></i>
 						</span>
                 </div>
 
@@ -48,16 +54,16 @@
             </div>
 
             <div id="sign_up_container" class="login100-form validate-form" style="display: none">
-                <span id="passwordErrorMessage" class="login100-form-title" style="color: red; display: none">
+                <span id="password_error_message" class="login100-form-title" style="color: red; display: none">
 						Le due password non corrispondono
 				</span>
-                <span id="usernameErrorMessage" class="login100-form-title" style="color: red; display: none">
+                <span id="username_error_message" class="login100-form-title" style="color: red; display: none">
 						Username già esistente
 				</span>
-                <span id="userErrorMessage" class="login100-form-title" style="color: red; display: none">
+                <span id="user_error_message" class="login100-form-title" style="color: red; display: none">
 						Errore nella creazione dell'utente
 				</span>
-                <span id="userSuccessMessage" class="login100-form-title" style="color: green; display: none">
+                <span id="user_success_message" class="login100-form-title" style="color: green; display: none">
 						Utente creato con successo
 				</span>
                 <span class="login100-form-title">
@@ -68,7 +74,7 @@
                     <input id="user_sign_up" class="input100" type="text" name="username" placeholder="username">
                     <span class="focus-input100"></span>
                     <span class="symbol-input100">
-							<i class="fa fa-envelope" aria-hidden="true"></i>
+							<i class="fa fa-user" aria-hidden="true"></i>
 						</span>
                 </div>
 
@@ -90,7 +96,8 @@
                 </div>
 
                 <div class="wrap-input100 validate-input">
-                    <input id="img_url_sign_up" class="input100" type="password" value="" name="pass" placeholder="Url immagine">
+                    <input id="img_url_sign_up" class="input100" type="password" value="" name="pass"
+                           placeholder="Url immagine">
                     <span class="focus-input100"></span>
                     <span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>

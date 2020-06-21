@@ -11,7 +11,7 @@ Chat = core.Chat;
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    res.render('test');
+    res.render('index');
 
 });
 router.get('/login/', function (req, res, next) {
