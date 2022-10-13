@@ -1,15 +1,6 @@
 # Node-chat
-Web live chat per il corso universitario "Tecnologie e linguaggi per il web"
+Web live chat for the university course "Tecnologies and Languages for Web"
 
 ## Introduzione
-Un utente, dopo essersi registrato, può iniziare a chattare con i propri amici/conoscenti
-conoscendo il loro username (scelto appositamente nella fase
-di registrazione).
-Per ottimizzare la velocità di esecuzione ho deciso di non affidarmi a
-framework lato client (es: jquery, angular ecc..), ma ho realizzato tutto il
-codice con javascript nativo, attraverso il pattern Model View Controller
-con la specifica standard ECMAScript 6.
-Per quanto riguarda il server ho utlizzato Node.js con il framework Express.
-come DBMS ho utilizzato Postgresql, con la libreria ’pg-promise’ per
-interfacciarmi ad esso.
+After registering, a user can start chatting with their friends / acquaintances knowing their username (specifically chosen during the registration phase). To speed up the execution speed I decided not to rely on client-side frameworks (eg: jquery, angular, etc.), but I created all the code with native javascript, through the Model View Controller pattern with the standard ECMAScript 6 specification. As for the server I used Node.js with the Express framework. as a DBMS I used Postgresql, with the 'pg-promise' library to interface with it.
 ![alt text](documentation/chat-mock.jpg)
