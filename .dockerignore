@@ -4,4 +4,4 @@ database
 .gitignore
 .dockerignore
 Dockerfile
-docker-compose.yamml
+docker-compose.yaml
