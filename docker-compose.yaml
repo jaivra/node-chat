@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  website:
+    build: .
+    ports:
+      - 3000:3000
+  database_chat:
+    build: database/
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=user
+      - POSTGRES_DB=node_chat
