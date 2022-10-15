@@ -94,5 +94,5 @@ class DB {
 }
 
 //
-const db = new DB("localhost", "5432", "node_chat", "valerio", "postgress");
+const db = new DB("database_chat", "5432", "node_chat", "user", "password");
 module.exports = db;
