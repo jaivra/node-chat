@@ -76,7 +76,7 @@ class ChatFrameView extends ObservableView {
 
         const inputText = document.createElement("input");
         inputText.setAttribute("type", "text");
-        inputText.setAttribute("placeholder", "Scrivi qualcosa...");
+        inputText.setAttribute("placeholder", "Message");
         inputText.setAttribute("maxLength", "250");
 
         const submitButton = document.createElement("button");
