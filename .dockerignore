@@ -1,0 +1,7 @@
+documentation
+database
+.git
+.gitignore
+.dockerignore
+Dockerfile
+docker-compose.yamml
