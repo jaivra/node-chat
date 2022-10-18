@@ -58,7 +58,7 @@ router.post('/sign_up/', function (req, res, next) {
             res.end()
         })
         .catch(_ => {
-            console.log("errore", _);
+            //console.error("errore", _);
             res.status(400);
             res.end()
         });
@@ -84,7 +84,6 @@ router.get('/list/', function (req, res, next) {
                 const user = new User(userData.username, userData.img);
                 users.push(user.toJSON(user))
             });
-            console.log(usersData);
             res.status(200);
             return users;
         })

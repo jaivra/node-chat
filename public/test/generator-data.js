@@ -56,8 +56,6 @@ class DataGenerator {
         this._userGenerator = new UserGenerator();
         this._messageGenerator = new MessageGenerator();
         this._chatGenerator = new ChatGenerator();
-
-        console.log("++++++++++", this._userGenerator);
     }
 
     generateUser() {
